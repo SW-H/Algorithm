@@ -32,6 +32,9 @@ int main() {
         printf("0");
         return 0;
     }
+
+    // nCm = n! / (m! * (n-m)!)
+
     int sol = min(cnt(2, n) - cnt(2, m) - cnt(2, n - m),
                   cnt(5, n) - cnt(5, m) - cnt(5, n - m));
     printf("%d\n", sol);
