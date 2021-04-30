@@ -37,18 +37,18 @@ void initArr(){
 
 void DFS(int vertex, int startVertex){
   int target;
-    target = startVertex;
-    printf("%d ", target);
-    isvisited[target] = true;
+  target = startVertex;
+  printf("%d ", target);
+  isvisited[target] = true;
 
-    for(int i=1;i<=vertex;i++){
-      if(i==target){
-        continue;
-      }
-      if(!isvisited[i] && tree[target][i] && tree[i][target]){
-        DFS(vertex, i);
-      }
+  for(int i=1;i<=vertex;i++){
+    if(i==target){
+      continue;
     }
+    if(!isvisited[i] && tree[target][i] && tree[i][target]){
+      DFS(vertex, i);
+    }
+  }
 }
 
 void BFS(int vertex, int startVertex){
