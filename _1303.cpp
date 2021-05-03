@@ -1,7 +1,8 @@
 #include <cstdio>
+#include <math.h>
 
 int calcPower(char color);
-void calcPowerRecursive(char color, int i, int j);
+int calcPowerRecursive(char color, int i, int j);
 void init();
 
 char soldiers[101][101];
@@ -16,7 +17,6 @@ int main(){
       scanf("%1s", &soldiers[i][j] );
     }
   }
-  init();
   /*
      printf("----------\n");
      for(int i=0; i<height; i++){
@@ -40,15 +40,17 @@ void init(){
 
 int calcPower(char color){
   init();
+  int res;
   for(int i=0; i<height; i++){
     for(int j=0; j<width; j++){
-      calcPowerRecursive(color, i, j);
+      res += pow(calcPowerRecursive(color, i, j), 2.0);
+      power = 0;
     }
   }
-  return power*power;
+  return res;
 }
 
-void calcPowerRecursive(char color, int i, int j){
+int calcPowerRecursive(char color, int i, int j){
   if(i+1 < height && soldiers[i+1][j] == color && !check[i+1][j]){
     power++;
     check[i+1][j] = true;
@@ -70,4 +72,6 @@ void calcPowerRecursive(char color, int i, int j){
     check[i][j-1] = true;
     calcPowerRecursive(color, i, j-1);
   }
+
+  return power;
 }
