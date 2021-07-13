@@ -5,6 +5,7 @@
 
 ### Executable ###
 a
+*.out
 *.app
 *.bat
 *.cgi
