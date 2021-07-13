@@ -4,6 +4,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,executable
 
 ### Executable ###
+a
 *.app
 *.bat
 *.cgi
