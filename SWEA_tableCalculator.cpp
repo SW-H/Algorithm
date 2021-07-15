@@ -132,6 +132,7 @@ void init(int C, int R) {
 }
 
 void set(int col, int row, char input[]) {
+    
     int setNum;
     bool isMinus;
     isMinus = false;
@@ -141,14 +142,15 @@ void set(int col, int row, char input[]) {
             if (input[i] == '-') {
                 isMinus = true;
             } else {
-                load[row - 1][col - 1] *= 10;
-                load[row - 1][col - 1] += (input[i] - '0');
+                setNum *= 10;
+                setNum += (input[i] - '0');
             }
         }
     }
     if (isMinus) {
-        load[row - 1][col - 1] *= -1;
+        setNum *= -1;
     }
+    calculator[row - 1][col - 1] = setNum;
     if (input[0] == 'A' || input[0] == 'S' || input[0] == 'M' ||
         input[0] == 'D') {
         if (!sw_strncmp(input, "ADD", 3)) {
@@ -166,25 +168,26 @@ void set(int col, int row, char input[]) {
         } else { // if(!sw_strncmp(input,"SUM",3)){
             setNum = calcRange(input + 4, SUM);
         }
-        load[row - 1][col - 1] = setNum;
+        calculator[row - 1][col - 1] = setNum;
     }
 }
 void update(int value[MAXR][MAXC]) {
-    for (int i = 0; i < MAXR; i++) {
-        for (int j = 0; j < MAXC; j++) {
-            // printf("%d %d\n",i,j);
-            // if ((calculator[i][j] == '0') && (load[i][j] != 0)) {
-            if (load[i][j] != 0) {
-                calculator[i][j] = load[i][j];
-            }
-        }
-    }
+    // for (int i = 0; i < MAXR; i++) {
+    //     for (int j = 0; j < MAXC; j++) {
+    //         // printf("%d %d\n",i,j);
+    //         // if ((calculator[i][j] == '0') && (load[i][j] != 0)) {
+            
+    //         // if (load[i][j] != 0) {
+    //             // calculator[i][j] = load[i][j];
+    //         // }
+    //     }
+    // }
     
     
     for (int i = 0; i < MAXR; i++) {
         for (int j = 0; j < MAXC; j++) {
             value[i][j] = calculator[i][j];
-            load[i][j] = 0;
+            // load[i][j] = calculator[i][j];
         }
     }
 
