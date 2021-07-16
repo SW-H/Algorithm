@@ -2,9 +2,12 @@
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,executable
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,executable
+###testfile
+input.txt
 
 ### Executable ###
 a
+ag
 *.out
 *.app
 *.bat
@@ -49,10 +52,11 @@ Temporary Items
 .apdisk
 
 ### VisualStudioCode ###
-.vscode/*
+.vscode/
 !.vscode/tasks.json
 !.vscode/launch.json
 *.code-workspace
+*.dSYM/
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
