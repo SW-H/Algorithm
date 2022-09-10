@@ -30,6 +30,7 @@
 // }
 
 #include <iostream>
+#include <algorithm> //sort
 using namespace std;
 
 int main() {
@@ -37,7 +38,7 @@ int main() {
     cin.tie(NULL);
     cout.tie(NULL);
 
-    list<int> height;
+    int height[9];
     int sum = 0;
     for (int i = 0; i < 9; i++) {
         cin >> height[i];
@@ -45,12 +46,15 @@ int main() {
     }
     int i, j;
     for (i = 0; i < 9; i++) {
-        for (j = 0; j < 9; j++) {
+        for (j = i + 1; j < 9; j++) {
             if (sum - height[i] - height[j] == 100) {
-                break;
+                height[i] = height[j] = 0;
+                sort(height, height + 9);
+                for (int i = 2; i < 9; i++) {
+                    cout << height[i] << "\n";
+                }
+                return 0;
             }
         }
     }
-    iterator::
-    sort(height.be)
 }
