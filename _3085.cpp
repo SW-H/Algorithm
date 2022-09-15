@@ -264,6 +264,7 @@ void myflush() {
 **/
 
 #include <iostream>
+#include <algorithm>
 #define MAX 50
 using namespace std;
 char board[MAX][MAX];
@@ -299,38 +300,42 @@ int solve() {
   res = check();
   for (int i = 0; i < size; i++) {
     for (int j = 0; j < size - 1; j++) {
-      swapRow(i, j);
+      // swapRow(i, j);
+      swap(board[i][j], board[i][j+1]);
       if (res < (tmp = check())) {
         res = tmp;
       }
-      swapRow(i, j);
+      swap(board[i][j], board[i][j+1]);
+      // swapRow(i, j);
     }
   }
   for (int j = 0; j < size; j++) {
     for (int i = 0; i < size - 1; i++) {
-      swapCol(i, j);
+      // swapCol(i, j);
+      swap(board[i][j], board[i+1][j]);
       if (res < (tmp = check())) {
         res = tmp;
       }
-      swapCol(i, j);
+      // swapCol(i, j);
+      swap(board[i][j], board[i+1][j]);
     }
   }
   return res;
 }
 
-void swapRow(int i, int j) { // 오른쪽 칸과 스왑 & 사탕 최대 개수 계산
-  int tmp;
-  tmp = board[i][j];
-  board[i][j] = board[i][j + 1];
-  board[i][j + 1] = tmp;
-}
+// void swapRow(int i, int j) { // 오른쪽 칸과 스왑 & 사탕 최대 개수 계산
+//   int tmp;
+//   tmp = board[i][j];
+//   board[i][j] = board[i][j + 1];
+//   board[i][j + 1] = tmp;
+// }
 
-void swapCol(int i, int j) { // 아랫칸과 스왑 & 사탕 최대 개수 계산
-  int tmp;
-  tmp = board[i][j];
-  board[i][j] = board[i + 1][j];
-  board[i + 1][j] = tmp;
-}
+// void swapCol(int i, int j) { // 아랫칸과 스왑 & 사탕 최대 개수 계산
+//   int tmp;
+//   tmp = board[i][j];
+//   board[i][j] = board[i + 1][j];
+//   board[i + 1][j] = tmp;
+// }
 
 int check() {
   int res = 1;
