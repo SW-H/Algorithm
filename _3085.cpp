@@ -1,3 +1,4 @@
+/**
 #include <cstdio>
 #include <cstdlib>
 
@@ -22,14 +23,14 @@ int main() {
 
 int solution(int N) {
     char** temp;
-   
+
     // 가로 체크
     int maxCandy = 0, nowCandy;
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N - 1; j++) {
             // j번째, j+1번째, 양옆 바꾸기, 바꾼 보드판 리턴
             temp = chgBothSides(false, N, i, j);
-            
+
             nowCandy = cntCandy(N, temp);
             if (maxCandy < nowCandy) {
                 maxCandy = nowCandy;
@@ -94,7 +95,7 @@ int cntCandy(int N, char** temp) {
         }
         now = 0;
     }
-    
+
     now = 0;
 
     // 세로
@@ -259,4 +260,115 @@ void myflush() {
     ;
   }
 }
-*/
+
+**/
+
+#include <iostream>
+#define MAX 50
+using namespace std;
+char board[MAX][MAX];
+void input();
+int solve();
+void swapRow(int i, int j);
+void swapCol(int i, int j);
+int check();
+int size;
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cout.tie(NULL);
+
+  cin >> size;
+  input();
+  cout << solve();
+}
+
+void input() {
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size; j++) {
+      cin >> board[i][j];
+    }
+  }
+}
+
+int solve() {
+  int res;
+  int tmp;
+
+  res = check();
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size - 1; j++) {
+      swapRow(i, j);
+      if (res < (tmp = check())) {
+        res = tmp;
+      }
+      swapRow(i, j);
+    }
+  }
+  for (int j = 0; j < size; j++) {
+    for (int i = 0; i < size - 1; i++) {
+      swapCol(i, j);
+      if (res < (tmp = check())) {
+        res = tmp;
+      }
+      swapCol(i, j);
+    }
+  }
+  return res;
+}
+
+void swapRow(int i, int j) { // 오른쪽 칸과 스왑 & 사탕 최대 개수 계산
+  int tmp;
+  tmp = board[i][j];
+  board[i][j] = board[i][j + 1];
+  board[i][j + 1] = tmp;
+}
+
+void swapCol(int i, int j) { // 아랫칸과 스왑 & 사탕 최대 개수 계산
+  int tmp;
+  tmp = board[i][j];
+  board[i][j] = board[i + 1][j];
+  board[i + 1][j] = tmp;
+}
+
+int check() {
+  int res = 1;
+  int count = 1;
+
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size - 1; j++) {
+      if (board[i][j] == board[i][j + 1]) {
+        count++;
+      } else {
+        if (count > res) {
+          res = count;
+        }
+        count = 1;
+      }
+    }
+    if (count > res) {
+      res = count;
+    }
+    count = 1;
+  }
+
+  count = 1;
+  for (int j = 0; j < size; j++) {
+    for (int i = 0; i < size - 1; i++) {
+      if (board[i][j] == board[i + 1][j]) {
+        count++;
+      } else {
+        if (count > res) {
+          res = count;
+        }
+        count = 1;
+      }
+    }
+    if (count > res) {
+      res = count;
+    }
+    count = 1;
+  }
+  return res;
+}
