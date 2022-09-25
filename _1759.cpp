@@ -1,7 +1,7 @@
-#include <iostream>
-#include <vector>
 #include <algorithm>
+#include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 vector<string> alphabet;
@@ -19,22 +19,19 @@ int main() {
     sort(alphabet.begin(), alphabet.end());
     for (int i = 0; i < C; i++) {
         make(i, alphabet[i]);
-        // cout << "@" << alphabet[i] << "\n";
     }
 }
 
 void make(int end, string password) {
-    // cout << "#" << password << "\n";
     string tmp = password;
-    int found;
-    //  = tmp.find_first_of("aeiou");
+    int found = 0;
     if (password.length() == L) {
         found = tmp.find_first_of("aeiou");
-        while(found != string::npos){
+        while (found != string::npos) {
             tmp.erase(found, 1);
             found = tmp.find_first_of("aeiou");
         }
-        if(tmp.length() < 2){
+        if (tmp.length() == password.length() || tmp.length() < 2) {
             return;
         }
         cout << password << "\n";
