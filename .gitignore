@@ -21,6 +21,7 @@ ag
 *.wsf
 _*
 !_*.cpp
+!_*.java
 
 ### macOS ###
 # General
