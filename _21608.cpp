@@ -1,105 +1,109 @@
+#include <algorithm> // max
 #include <iostream>
+#include <utility> //pair
 #include <vector>
-
 using namespace std;
 
-vector<int> likes(4);
-vector<vector<int>> seat(21, vector<int>(21));
-int N;
+#define PREV_SETTING                                                           \
+    ios_base::sync_with_stdio(false);                                          \
+    cout.tie(NULL);                                                            \
+    cin.tie(NULL);
 
-// void input();
-void test();
+int N;
+int friends[4];
+int emptySeats[21][21];
+int score[21][21];
+int seats[21][21];
+int x[] = {0, 0, -1, 1}; // 상하좌우
+int y[] = {-1, 1, 0, 0};
+int stu;
+
 void solve();
-bool comp(pair<int, int> a, pair<int, int> b);
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
+    PREV_SETTING
 
-    // test();
-    solve();
+    cin >> N;
+    for (int i = 0; i < N * N; i++) {
+        cin >> stu;
+        for (int i = 0; i < 4; i++) {
+            cin >> friends[i];
+        }
+        solve();
+    }
+    for (int i = 0; i <= N; i++) {
+        for (int j = 0; j <= N; j++) {
+            cout << seats[i][j] << " ";
+        }
+        cout << "\n";
+    }
 }
 
 void solve() {
-    int student;
-    pair<int, int> res;
-    vector<pair<int, int> > candidates;
-    cin >> N;
-    for (int i = 0; i < N * N; i++) {
-        cin >> student;
-        for (int j = 0; j < 4; j++) {
-            cin >> likes[j];
-        }
-    }
-    int likeCnt = 0, tmp, student;
-    bool solved;
-    // 1.
-    for(int stu = 0 ; stu < N ; stu++){
-        candidates.erase(candidates.begin());
-        for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= N; j++) {
-                if(likeCnt > (tmp = calcLikes(stu, i,j))){
-                    res.first = i;
-                    res.second = j;
-                    candidates.erase(candidates.begin());
-                    solved = true;
+    memset(score, 0, sizeof(score));
+    int max = 0;
+    pair<int, int> selected = make_pair(0, 0);
+    // 1. 비어있는 칸 중에서 좋아하는 학생이 인접한 칸에 가장 많은 칸으로 자리를
+    // 정한다.
+        // for (int i = 0; i < 4; i++) {
+        //     cout << friends[i] << " ";
+        // }
+        // cout << "\n"; 
+    int test;
+    for (int row = 1; row <= N; row++) {
+        for (int col = 1; col <= N; col++) {
+            test = 0;
+            if (seats[row][col] == 0) {
+                for (int i = 0; i < 4; i++) {
+                    if (row + y[i] > 0 && row + y[i] <= N && col + x[i] > 0 &&
+                        col + x[i] <= N) {
+                        if (seats[row + y[i]][col + x[i]] == 0) {
+                            emptySeats[row][col]++;
+                        } else {
+                            for (int f = 0; f < 4; f++) {
+                                if (seats[row + y[i]][col + x[i]] ==
+                                    friends[f]) {
+                                    test++;
+                                }
+                            }
+                        }
+                    }
                 }
-                else if(likeCnt == tmp){
-                    candidates.push_back(res);
-                    candidates.push_back(make_pair(i,j));
-                    solved = false;
-                }   
+                // cout << test << "\n";
             }
         }
-        // 2
-        int emptySeat;
-        sort(candidates.begin(), candidates.end(), comp);
-        if(!solved){
-            for(auto seat : candidates){
-                if(tmp < (emptySeat = calcEmpty(seat))){
-                    res = seat;
-                    tmp = emptySeat;
+    }
+    max = 0;
+    selected = make_pair(0, 0);
+    for (int row = N; row >= 1; row--) {
+        for (int col = N; col >= 1; col--) {
+            if (score[row][col] >= max && seats[row][col] == 0) {
+                if (score[row][col] > max) {
+                    max = score[row][col];
+                    selected = make_pair(row, col);
+                } else {
+                    // 2. 1을 만족하는 칸이 여러 개이면, 인접한 칸 중에서
+                    // 비어있는 칸이 가장 많은 칸으로 자리를 정한다.
+                    if (emptySeats[row][col] >=
+                        emptySeats[selected.first][selected.second]) {
+                        selected.first = row;
+                        selected.second = col;
+                    }
                 }
             }
         }
-        test();
-
-        // 결과 계산
-        
     }
-
-}
-
-int calcLikes(int stu, int row, int col){
-
-}
-
-int calcEmpty(pair<int, int> seat){
-    int row = seat.first;
-    int col = seat.second;
-    for(int i=0;i<N;i++){
-        for(int j=0;j<N;j++){
-            if((abs(row-i)+abs(col-j) == 1) && seat[i][j] == 0){
-                
-            }
+    // cout << "\n********************************\n";
+    // for (int i = 0; i <= N; i++) {
+    //     for (int j = 0; j <= N; j++) {
+    //         cout << score[i][j] << " ";
+    //     }
+    //     cout << "\n";
+    // }
+    seats[selected.first][selected.second] = stu;
+    for (int i = 0; i < 4; i++) {
+        if (emptySeats[selected.first + y[i]][selected.second + x[i]] > 0) {
+            emptySeats[selected.first + y[i]][selected.second + x[i]]--;
         }
-    }
-}
-
-bool comp(pair<int, int> a, pair<int, int> b){
-    if(a.first == b.first){
-        return a.second < b.second;
-    }
-    return a.first < b.first;
-}
-
-void test() {
-    cout << "\n========================";
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            cout << seat[i][j] << " ";
-        }
-        cout << "\n";
     }
 }
