@@ -17,13 +17,12 @@ int main() {
     cin >> T;
     for (int t = 1; t <= T; t++) {
         cin >> keys;
-        prev = 0b1111;
         N = keys.length();
         res = 0;
         // TODO : 1,000,000,007로 나눈 나머지 출력
         for (int i = 1; i < CASE; i++) {
             int keyCheck = 1 << ('D' - keys[0]);
-            if ((i & keyCheck) && (i & prev) && (i & 8)) {
+            if ((i & keyCheck) && (i & 0b1000)) {
                 solve(1, i);
             }
         }
