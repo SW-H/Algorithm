@@ -1,3 +1,4 @@
+#include <cstring> //memset
 #include <iostream>
 #define INIT                                                                   \
     ios_base::sync_with_stdio(false);                                          \
@@ -6,40 +7,42 @@
 #define DIV 1000000007
 #define CASE 16
 using namespace std;
-int T, N, res;
+int T, N, memo[10001][CASE];
 string keys;
 
-void solve(int day, int prev);
 int main() {
-    INIT
-
-    int prev;
+    INIT;
+    int keyCheck;
     cin >> T;
     for (int t = 1; t <= T; t++) {
         cin >> keys;
         N = keys.length();
-        res = 0;
-        // TODO : 1,000,000,007로 나눈 나머지 출력
-        for (int i = 1; i < CASE; i++) {
-            int keyCheck = 1 << ('D' - keys[0]);
+        memset(memo, 0, sizeof(memo));
+        for (int i = 1; i < CASE; i++) { // 첫날
+            keyCheck = 1 << ('D' - keys[0]);
             if ((i & keyCheck) && (i & 0b1000)) {
-                solve(1, i);
+                memo[1][i] = 1;
             }
         }
-        cout << "#" << t << " " << res;
-    }
-}
-
-void solve(int day, int prev) {
-    if (day == N) {
-        res++;
-        return;
-    }
-    for (int i = 1; i < CASE; i++) {
-        int keyCheck = 1 << ('D' - keys[day]);
-        if ((i & keyCheck) && (i & prev)) {
-            solve(day + 1, i);
+        for (int day = 2; day <= N; day++) {
+            keyCheck = 1 << ('D' - keys[day - 1]);
+            for (int prevCase = 1; prevCase < CASE; prevCase++) {
+                if (memo[day - 1][prevCase] > 0) {
+                    for (int curCase = 1; curCase < CASE; curCase++) {
+                        if ((prevCase & curCase) && (keyCheck & curCase)) {
+                            memo[day][curCase] =
+                                (memo[day][curCase] % DIV +
+                                 memo[day - 1][prevCase] % DIV) %
+                                DIV;
+                        }
+                    }
+                }
+            }
         }
+        int res = 0;
+        for (int fin = 1; fin < CASE; fin++) {
+            res = (res % DIV + memo[N][fin] % DIV) % DIV;
+        }
+        cout << "#" << t << " " << res << "\n";
     }
-    return;
 }
