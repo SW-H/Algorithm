@@ -49,14 +49,11 @@ int main() {
 
     for (int round = 1; round <= k; round++) {
         move();
-        debug();
-        scorer = throwBall(round % (4 * n));
+        scorer = throwBall((round - 1) % (4 * n) + 1);
+        // }
         if (scorer.first != 0) {
             score += getScore(scorer);
-            // printf("(%d,%d)\n", scorer.first, scorer.second);
-            // cout << round << " : " << score << "\n";
         }
-        // cout << score << "\n";
     }
     cout << score;
 }
@@ -146,6 +143,7 @@ bool isPlayer(int row, int col) {
 }
 
 pair<int, int> throwBall(int round) {
+    int row, col;
     if (1 <= round && round <= n) {
         for (int col = 1; col <= n; col++) {
             if (HEAD <= input[round][col] && input[round][col] <= TAIL) {
@@ -154,26 +152,26 @@ pair<int, int> throwBall(int round) {
         }
     }
     if (n + 1 <= round && round <= 2 * n) {
+        col = (round - 1) % n + 1;
         for (int row = n; row >= 1; row--) {
-            if (HEAD <= input[row][round % n] &&
-                input[row][round % n] <= TAIL) {
-                return make_pair(row, round % n);
+            if (HEAD <= input[row][col] && input[row][col] <= TAIL) {
+                return make_pair(row, col);
             }
         }
     }
     if (2 * n + 1 <= round && round <= 3 * n) {
+        row = n - (round % (2 * n)) + 1;
         for (int col = n; col >= 1; col--) {
-            if (HEAD <= input[round % 2 * n][col] &&
-                input[round % 2 * n][col] <= TAIL) {
-                return make_pair(round % 2 * n, col);
+            if (HEAD <= input[row][col] && input[row][col] <= TAIL) {
+                return make_pair(row, col);
             }
         }
     }
     if (3 * n + 1 <= round && round <= 4 * n) {
+        col = n - (round % (3 * n)) + 1;
         for (int row = 1; row <= n; row++) {
-            if (HEAD <= input[row][round % 3 * n] &&
-                input[row][round % 3 * n] <= TAIL) {
-                return make_pair(row, round % 3 * n);
+            if (HEAD <= input[row][col] && input[row][col] <= TAIL) {
+                return make_pair(row, col);
             }
         }
     }
@@ -192,8 +190,9 @@ int findLines(vector<pair<int, int> /**/> &lines, pair<int, int> now) {
         if (isInRange(row, col) && (visited[row][col] == false) &&
             isPlayer(row, col)) {
             if (((input[now.first][now.second] == TAIL) &&
-                (input[row][col] != HEAD)) || (((input[now.first][now.second] == HEAD) &&
-                (input[row][col] == TAIL) && (lines.size()<3)))) {
+                 (input[row][col] != HEAD)) ||
+                (((input[now.first][now.second] == HEAD) &&
+                  (input[row][col] == TAIL) && (lines.size() < 3)))) {
                 continue;
             }
             return findLines(lines, make_pair(row, col));
