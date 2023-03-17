@@ -3,12 +3,12 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,executable
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,executable
 ###testfile
-input.txt
+*/*.txt
 
 ### Executable ###
 a
 ag
-*.out
+*/*.out
 *.app
 *.bat
 *.cgi
