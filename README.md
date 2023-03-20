@@ -13,7 +13,7 @@
 <br>
 
 
-🚨 for문 주의 : 초기값 지정하는 첫 루프를 돌때도 조건식 확인함
+🚨 for문 주의 : 초기값 지정하는 첫 루프를 돌때도 조건식 확인함
 
 → 아래 코드는 아무것도 출력되지 않음
 
@@ -26,3 +26,106 @@ for(int i=10;i<10;i++){
 구조체 배열(메모리풀) 초기화시 함부로 0으로 채우지 않기
 
 ex) `memset(pool, 0, sizeof(dir) * n);`
+
+<br>
+
+<br>
+🚨 vector에서 erase 함수 + for 문 쓸 때 주의
+
+ex) `vector<int> array;`
+
+
+| 1 | 2 | 3 | 4 | 5 |
+| --- | --- | --- | --- | --- |
+
+
+1,2,3 지우기
+
+```c
+for (auto it = array.begin(); it != array.end(); it++) {
+      if (*it < 4) {
+	        array.erase(it);
+      }
+}
+
+for(int i : array){
+    cout << i <<" ";
+}
+```
+
+> 💻 2 4 5
+> 
+
+∵ 1 지우고 iterator는 2를 가리키는데 ++하면 3 가리킴
+
++) iterator로 순회하는 중에 erase 하면 꼬임
+
+`it = array.erase(it)` 이런식으로 재할당 해주는 방식으로 부분적으로 해결 가능(항상 해결되는 것x)
+
+<br>
+<br>
+
+🚨 ”동시에 일어난다” vs “순차적으로 일어난다” 구분
+
+동시에 일어난다면 임시 배열 만들어서 처리
+
+ex)
+
+![Screenshot 2023-03-17 at 8.40.24 AM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ffe236e-ad71-4095-bcee-2c30deb4110f/Screenshot_2023-03-17_at_8.40.24_AM.png)
+
+<br>
+<br>
+
+🚨 차례대로 업데이트할 때 방향 주의
+
+ex) 인덱스 1→2→3→4→5 순서대로 업데이트시 인덱스 1에 있는 내용이 5까지 따라 올라갈 수 있음 ⇒ 이 경우 5→…→1 순서로 업데이트
+
+![Screenshot 2023-03-20 at 12.40.56 AM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/12c96724-67d7-485d-add6-2d0fc30c4f46/Screenshot_2023-03-20_at_12.40.56_AM.png)
+
+➡️
+
+![Screenshot 2023-03-20 at 12.50.25 AM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ef1c03a-981e-4b2b-8521-b72e7389d5d9/Screenshot_2023-03-20_at_12.50.25_AM.png)
+
+<br>
+<br>
+
+🚨 연결리스트 통째로 옮기는 경우 : 기존 위치의 head, tail 끼리 연결 필요
+
+(옮기는 도착지점 연결은 하고 기존 위치 head-tail끼리의 연결 까먹음..)
+
+![Untitled Diagram.drawio.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/147430d5-81b5-41f8-8593-ac5cdfc0b60b/Untitled_Diagram.drawio.png)
+
+<br>
+<br>
+
+🚨 2차원 배열 중 가장 큰﹒작은 값 찾을 때 : 기준값 설정 주의
+
+ex) 배열에 요소들 값 : 0~
+
+초기 기준값 ≠ 0, 배열에 있을 수 없는 값으로 초기값을 두고 최대(최소)값 찾기
+
+```cpp
+int calcFriends(pair<int, int> loc, bool *likes) {
+
+// 기준값 (0,0)이 로직상 맞는지도 유의!!
+// 최댓값 구할 때 - (0,0)이 아예 불가능 한 값인데 모든 가능한 값들보다 (0,0)에 있는 값이 큰 경우
+
+    if ((loc.first == -1) && (loc.second == -1)) { 
+        return -1;
+    }
+    // 상하좌우
+    int dr[] = {-1, 1, 0, 0};
+    int dc[] = {0, 0, -1, 1};
+    int ret = 0;
+    for (int d = 0; d < 4; d++) {
+        int nr = loc.first + dr[d];
+        int nc = loc.second + dc[d];
+        if ((0 <= nr) && (nr < n) && (0 <= nc) && (nc < n)) {
+            if (likes[rides[nr][nc]]) {
+                ret++;
+            }
+        }
+    }
+    return ret;
+}
+```
