@@ -71,7 +71,7 @@ for(int i : array){
 
 ex)
 
-![Screenshot 2023-03-17 at 8.40.24 AM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ffe236e-ad71-4095-bcee-2c30deb4110f/Screenshot_2023-03-17_at_8.40.24_AM.png)
+![Screenshot 2023-03-17 at 8 40 24 AM](https://user-images.githubusercontent.com/49016275/226225165-d0cef2fc-4944-4aa6-a66d-450642db7e11.png)
 
 <br>
 <br>
@@ -79,12 +79,9 @@ ex)
 🚨 차례대로 업데이트할 때 방향 주의
 
 ex) 인덱스 1→2→3→4→5 순서대로 업데이트시 인덱스 1에 있는 내용이 5까지 따라 올라갈 수 있음 ⇒ 이 경우 5→…→1 순서로 업데이트
+<img width="476" alt="Screenshot 2023-03-20 at 10 19 11 AM" src="https://user-images.githubusercontent.com/49016275/226225222-5c1261f8-5719-46b0-aa88-71a6b26d3a9d.png">
 
-![Screenshot 2023-03-20 at 12.40.56 AM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/12c96724-67d7-485d-add6-2d0fc30c4f46/Screenshot_2023-03-20_at_12.40.56_AM.png)
 
-➡️
-
-![Screenshot 2023-03-20 at 12.50.25 AM.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8ef1c03a-981e-4b2b-8521-b72e7389d5d9/Screenshot_2023-03-20_at_12.50.25_AM.png)
 
 <br>
 <br>
@@ -93,7 +90,7 @@ ex) 인덱스 1→2→3→4→5 순서대로 업데이트시 인덱스 1에 있�
 
 (옮기는 도착지점 연결은 하고 기존 위치 head-tail끼리의 연결 까먹음..)
 
-![Untitled Diagram.drawio.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/147430d5-81b5-41f8-8593-ac5cdfc0b60b/Untitled_Diagram.drawio.png)
+![Untitled Diagram drawio](https://user-images.githubusercontent.com/49016275/226225269-13adbbd5-f01c-405b-8857-84524682de0b.png)
 
 <br>
 <br>
