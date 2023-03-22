@@ -1,5 +1,4 @@
-// 이동 과정 중에 원자가 만나는 경우는 합성으로 고려하지 않습니다.
-
+#include <iomanip>
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -15,7 +14,7 @@ struct Atom {
 };
 
 vector<Atom> map[51][51];
-Atom pool[2501];
+Atom pool[1111111];
 int ATOM_CNT = 0;
 
 void move();
@@ -31,7 +30,7 @@ int main() {
     for (int atom = 1; atom <= atomCnt; atom++) {
         cin >> r >> c >> m >> s >> d;
         idx = createAtom(m, s, d);
-        map[r][c].push_back(pool[idx]);
+        map[r - 1][c - 1].push_back(pool[idx]);
     }
 
     for (int sec = 1; sec <= t; sec++) {
@@ -40,10 +39,10 @@ int main() {
     }
     cout << calcRes();
 }
-int calcRes(){
-    int res=0;
-    for (int r = 1; r <= n; r++) {
-        for (int c = 1; c <= n; c++) {
+int calcRes() {
+    int res = 0;
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < n; c++) {
             if (!map[r][c].empty()) {
                 for (auto atom : map[r][c]) {
                     res += atom.m;
@@ -55,10 +54,9 @@ int calcRes(){
 }
 
 void crush() {
-
-    for (int r = 1; r <= n; r++) {
-        for (int c = 1; c <= n; c++) {
-            if (!map[r][c].empty()) {
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < n; c++) {
+            if (map[r][c].size() >= 2) {
                 bool isEven = false, isOdd = false;
                 int m = 0, s = 0, d = 0;
                 for (auto atom : map[r][c]) {
@@ -72,10 +70,10 @@ void crush() {
                 }
                 m /= 5;
                 s /= map[r][c].size();
-                if (isEven == isOdd) { // 대각선 네방향
+                if (isEven == isOdd) {  
                     d = 1;
                 }
-                map[r][c].clear();
+                map[r][c].clear();  
                 if (m > 0) {
                     for (int n = 0; n < 4; n++) {
                         map[r][c].push_back(pool[createAtom(m, s, d)]);
@@ -89,25 +87,21 @@ void crush() {
 
 void move() {
     vector<Atom> tmp[51][51];
-    for (int r = 1; r <= n; r++) {
-        for (int c = 1; c <= n; c++) {
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < n; c++) {
             if (!map[r][c].empty()) {
                 for (int atom = 0; atom < map[r][c].size(); atom++) {
                     int nr =
-                        (r + (map[r][c][atom].s % n) * dr[map[r][c][atom].d] +
-                         n) %
-                        n;
+                        (r + (map[r][c][atom].s % n) * dr[map[r][c][atom].d] + n) % n;
                     int nc =
-                        (c + (map[r][c][atom].s % n) * dc[map[r][c][atom].d] +
-                         n) %
-                        n;
+                        (c + (map[r][c][atom].s % n) * dc[map[r][c][atom].d] + n) % n;
                     tmp[nr][nc].push_back(map[r][c][atom]);
                 }
             }
         }
     }
-    for (int r = 1; r <= n; r++) {
-        for (int c = 1; c <= n; c++) {
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < n; c++) {
             map[r][c] = tmp[r][c];
         }
     }
@@ -121,8 +115,8 @@ int createAtom(int m, int s, int d) {
 }
 
 void debug() {
-    for (int r = 1; r <= n; r++) {
-        for (int c = 1; c <= n; c++) {
+    for (int r = 0; r < n; r++) {
+        for (int c = 0; c < n; c++) {
             if (!map[r][c].empty()) {
                 cout << r << ", " << c << "\n";
             }
