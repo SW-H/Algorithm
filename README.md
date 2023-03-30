@@ -144,3 +144,17 @@ for (int i = 1; i <= players; i++) {
         }
     }
 ```
+
+**🚨 unordered_map, vector 초기화**
+
+vector의 각 요소(unordered_map) 초기화 → vector 초기화
+
+```cpp
+vector<unordered_map<int,int> > vec = 
+	vector<unordered_map<int,int> >(10, unordered_map<int,int>());
+
+for(int i=0;i<TEAM_MAX;i++){
+	vec[i].clear();
+}
+vec.clear();
+```
